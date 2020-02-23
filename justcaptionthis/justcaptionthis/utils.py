@@ -41,7 +41,7 @@ def ocr(url):
 # if __name__ == '__main__':
 # 	print(get_text("8b6.jpg"))
 
-def resList(response):
+def tweetsplitter(response):
 	"""Breaks response into chunks less than 280 characters"""
 
 	responseList = []
@@ -57,6 +57,6 @@ def resList(response):
 			word_len += 1
 			current_char += 1
 		responseList.append(response[:response_len] + '...')
-		response = '...' + response[response_len:]
+		response = '... ' + response[response_len:]
 	responseList.append(response)
 	return responseList

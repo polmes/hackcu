@@ -1,6 +1,6 @@
 import tweepy
 import requests
-from utils import ocr
+from utils import ocr, tweetsplitter
 
 class MentionListener(tweepy.StreamListener):
 
@@ -70,7 +70,14 @@ class MentionListener(tweepy.StreamListener):
 				print(tweet)
 
 				# Tweet (reply) the response
-				self.api.update_status(tweet, in_reply_to_status_id=self.id, auto_populate_reply_metadata=True)
+				if len(tweet) <= 280:
+					self.api.update_status(tweet, in_reply_to_status_id=self.id, auto_populate_reply_metadata=True)
+				else:
+					tweets = tweetsplitter(tweet)
+					prev = self.id
+					for t in tweets:
+						latest = self.api.update_status(t, in_reply_to_status_id=prev, auto_populate_reply_metadata=True)
+						prev = latest.id
 
 		# If tweet has no image, try and find parent tweet with image
 		else:
