@@ -14,7 +14,7 @@ class MentionListener(tweepy.StreamListener):
 			self.id = status.id
 
 			# One or multiple captions?
-			opts = ['tell me more']
+			opts = ['tell me more', 'what else', 'is that all', 'can you do better']
 			if any(substr in status.text.lower() for substr in opts):
 				self.more = True
 			else:
