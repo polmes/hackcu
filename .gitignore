@@ -1,8 +1,15 @@
+# Models and vocab
+image_captioning/models
+image_captioning/data
+
 # Visual Studio Code files
 .vscode/
 
 # Private cnf files
 justcaptionthis/justcaptionthis/config/private.cnf
+
+# Mac shit
+**/.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
