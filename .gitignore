@@ -1,3 +1,9 @@
+# Visual Studio Code files
+.vscode/
+
+# Private cnf files
+justcaptionthis/justcaptionthis/config/private.cnf
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
