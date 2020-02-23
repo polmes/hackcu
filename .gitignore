@@ -1,3 +1,7 @@
+# Models and vocab
+image_captioning/models
+image_captioning/data
+
 # Visual Studio Code files
 .vscode/
 
