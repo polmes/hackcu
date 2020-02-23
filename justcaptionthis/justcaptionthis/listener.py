@@ -12,6 +12,13 @@ class MentionListener(tweepy.StreamListener):
 		if firstcall:
 			self.id = status.id
 
+			# One or multiple captions?
+			opts = ['tell me more']
+			if any(substr in status.text.lower() for substr in opts):
+				self.more = True
+			else:
+				self.more = False
+
 		# If tweet has an image, tag this one
 		if hasattr(status, 'extended_entities'):
 			print(status.text)
@@ -21,6 +28,7 @@ class MentionListener(tweepy.StreamListener):
 				'api-key': self.key,
 			}
 
+			# Iterate through each image in tweet
 			caption = []
 			for each in status.extended_entities['media']:
 				# Get image URL
@@ -34,8 +42,10 @@ class MentionListener(tweepy.StreamListener):
 
 				# Take first caption provided
 				if 'output' in response:
-					caption.append(response['output']['captions'][0]['caption'])
-
+					if not self.more:
+						caption.append(response['output']['captions'][0]['caption'])
+					else:
+						caption.append('; '.join([response['output']['captions'][i]['caption'] for i in range(1, 4)]))
 
 			if caption:
 				# Build tweet
