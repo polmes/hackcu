@@ -27,11 +27,11 @@ class MentionListener(tweepy.StreamListener):
 
 			# Take first caption provided
 			if 'output' in response:
-			caption = response['output']['captions'][0]['caption']
-			# caption = f"@{status.author.screen_name} {response['output']['captions'][0]['caption']}"
+				caption = response['output']['captions'][0]['caption']
+				# caption = f"@{status.author.screen_name} {response['output']['captions'][0]['caption']}"
 
-			# print(response)
-			print(caption)
+				# print(response)
+				print(caption)
 
-			# Tweet (reply) the response
-			self.api.update_status(caption, in_reply_to_status_id=status.id, auto_populate_reply_metadata=True)
+				# Tweet (reply) the response
+				self.api.update_status(caption, in_reply_to_status_id=status.id, auto_populate_reply_metadata=True)
