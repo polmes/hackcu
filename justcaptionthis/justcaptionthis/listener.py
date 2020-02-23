@@ -1,5 +1,6 @@
 import tweepy
 import requests
+from utils import ocr
 
 class MentionListener(tweepy.StreamListener):
 
@@ -40,12 +41,23 @@ class MentionListener(tweepy.StreamListener):
 				# Call DenseCap API
 				response = requests.post('https://api.deepai.org/api/densecap', headers=headers, files=files).json()
 
-				# Take first caption provided
+				# Call tesseract for OCR
+				text = ocr(img)
+
+				# Construct caption
 				if 'output' in response:
 					if not self.more:
-						caption.append(response['output']['captions'][0]['caption'])
+						# Take first caption provided
+						cap = response['output']['captions'][0]['caption']
 					else:
-						caption.append('; '.join([response['output']['captions'][i]['caption'] for i in range(1, 4)]))
+						# Take next 3 captions
+						cap = '; '.join([response['output']['captions'][i]['caption'] for i in range(1, 4)])
+
+					# Add OCR text if detected
+					if text is not None:
+						cap = 'The image shows ' + cap + ' and it says ' + text
+
+					caption.append(cap)
 
 			if caption:
 				# Build tweet
