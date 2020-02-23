@@ -7,7 +7,11 @@ class MentionListener(tweepy.StreamListener):
 		self.api = api
 		self.key = deepai['key']
 
-	def on_status(self, status):
+	def on_status(self, status, firstcall=True):
+		# Save ID of first tweet with @mention to reply to
+		if firstcall:
+			self.id = status.id
+
 		# If tweet has an image, tag this one
 		if hasattr(status, 'extended_entities'):
 			print(status.text)
@@ -37,7 +41,7 @@ class MentionListener(tweepy.StreamListener):
 				print(caption)
 
 				# Tweet (reply) the response
-				self.api.update_status(caption, in_reply_to_status_id=status.id, auto_populate_reply_metadata=True)
+				self.api.update_status(caption, in_reply_to_status_id=self.id, auto_populate_reply_metadata=True)
 
 		# If tweet has no image, try and find parent tweet with image
 		else:
@@ -45,4 +49,4 @@ class MentionListener(tweepy.StreamListener):
 				parent = self.api.get_status(status.in_reply_to_status_id)
 
 				# Recursive call
-				self.on_status(parent)
+				self.on_status(parent, False)
