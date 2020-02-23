@@ -1,30 +1,30 @@
 import tweepy
+import os
 import configparser
 from listener import MentionListener
 
-# Read access keys
-config = configparser.ConfigParser()
-config.read('./justcaptionthis/justcaptionthis/config/private.cnf')
-api = config['api']
-token = config['token']
-deepai = config['deepai']
+def main():
+	# Read access keys
+	config = configparser.ConfigParser()
+	cwd = os.path.dirname(os.path.abspath(__file__))
+	config.read(os.path.join(cwd, 'config/private.cnf'))
 
-# Authenticate
-auth = tweepy.OAuthHandler(api['key'], api['secret'])
-auth.set_access_token(token['key'], token['secret'])
+	# Setup key variables
+	api = config['api']
+	token = config['token']
+	deepai = config['deepai']
 
-# Start Tweepy
-api = tweepy.API(auth)
+	# Authenticate
+	auth = tweepy.OAuthHandler(api['key'], api['secret'])
+	auth.set_access_token(token['key'], token['secret'])
 
-# # Test: read
-# public_tweets = api.home_timeline()
-# for tweet in public_tweets:
-# 	print(tweet.text)
+	# Start Tweepy
+	api = tweepy.API(auth)
 
-# # Test: write
-# api.update_status('This is still not a bot 🤖')
+	# Twitter Streaming API
+	listener = MentionListener(api, deepai)
+	stream = tweepy.Stream(auth=api.auth, listener=listener)
+	stream.filter(track=['@JustCaptionThis']) # is_async=true?
 
-# Test: streaming
-listener = MentionListener(api, deepai)
-stream = tweepy.Stream(auth=api.auth, listener=listener)
-stream.filter(track=['@JustCaptionThis']) # is_async=true?
+if __name__ == '__main__':
+	main()

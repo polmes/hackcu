@@ -16,10 +16,6 @@ class MentionListener(tweepy.StreamListener):
 		if hasattr(status, 'extended_entities'):
 			print(status.text)
 
-			# Check number of images on tweet
-			# multiple = True if len(status.extended_entities['media']) > 1 else False
-			# img = status.extended_entities['media'][0]['media_url_https']
-
 			# Setup DenseCap
 			headers = {
 				'api-key': self.key,
