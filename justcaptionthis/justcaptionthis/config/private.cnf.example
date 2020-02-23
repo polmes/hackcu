@@ -5,3 +5,6 @@ secret = abcdefgh
 [token]
 key = abcdefgh
 secret = abcdefgh
+
+[deepai]
+key = abcd

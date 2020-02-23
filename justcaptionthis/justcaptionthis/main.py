@@ -7,6 +7,7 @@ config = configparser.ConfigParser()
 config.read('./justcaptionthis/justcaptionthis/config/private.cnf')
 api = config['api']
 token = config['token']
+deepai = config['deepai']
 
 # Authenticate
 auth = tweepy.OAuthHandler(api['key'], api['secret'])
@@ -24,6 +25,6 @@ api = tweepy.API(auth)
 # api.update_status('This is still not a bot 🤖')
 
 # Test: streaming
-listener = MentionListener(api)
+listener = MentionListener(api, deepai)
 stream = tweepy.Stream(auth=api.auth, listener=listener)
 stream.filter(track=['@JustCaptionThis']) # is_async=true?

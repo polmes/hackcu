@@ -16,7 +16,7 @@ class MentionListener(tweepy.StreamListener):
 
 			# Call DenseCap API
 			headers = {
-				'api-key': 'quickstart-QUdJIGlzIGNvbWluZy4uLi4K',
+				'api-key': self.key,
 			}
 
 			files = {
@@ -26,6 +26,7 @@ class MentionListener(tweepy.StreamListener):
 			response = requests.post('https://api.deepai.org/api/densecap', headers=headers, files=files).json()
 
 			# Take first caption provided
+			if 'output' in response:
 			caption = response['output']['captions'][0]['caption']
 			# caption = f"@{status.author.screen_name} {response['output']['captions'][0]['caption']}"
 
