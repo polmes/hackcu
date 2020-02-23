@@ -24,6 +24,6 @@ api = tweepy.API(auth)
 # api.update_status('This is still not a bot 🤖')
 
 # Test: streaming
-listener = MentionListener()
+listener = MentionListener(api)
 stream = tweepy.Stream(auth=api.auth, listener=listener)
 stream.filter(track=['@JustCaptionThis']) # is_async=true?
