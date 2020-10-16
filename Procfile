@@ -1,1 +1,1 @@
-web: python justcaptionthis/justcaptionthis/main.py
+worker: python justcaptionthis/justcaptionthis/main.py
