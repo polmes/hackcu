@@ -4,15 +4,30 @@ import configparser
 from listener import MentionListener
 
 def main():
-	# Read access keys
-	config = configparser.ConfigParser()
-	cwd = os.path.dirname(os.path.abspath(__file__))
-	config.read(os.path.join(cwd, 'config/private.cnf'))
+	filepath = 'config/private.cnf'
+	if os.path.isfile(filepath):
+		# Read access keys
+		config = configparser.ConfigParser()
+		cwd = os.path.dirname(os.path.abspath(__file__))
+		config.read(os.path.join(cwd, filepath))
 
-	# Setup key variables
-	api = config['api']
-	token = config['token']
-	deepai = config['deepai']
+		# Setup key variables
+		api = config['api']
+		token = config['token']
+		deepai = config['deepai']
+	else:
+		# Use environment variables
+		api = {
+			'key': os.environ['API_KEY'],
+			'secret': os.environ['API_SECRET']
+		}
+		token = {
+			'key': os.environ['TOKEN_KEY'],
+			'secret': os.environ['TOKEN_SECRET']
+		}
+		deepai = {
+			'key': os.environ['DEEPAI_KEY'],
+		}
 
 	# Authenticate
 	auth = tweepy.OAuthHandler(api['key'], api['secret'])
